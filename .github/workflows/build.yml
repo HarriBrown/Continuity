@@ -1,6 +1,6 @@
 name: Java CI with Gradle
 
-on: [ push ]
+on: [push]
 
 jobs:
   build:
@@ -13,8 +13,14 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: 17
+          java-version: 21
           check-latest: true
+      - name: Set up Gradle 8.12
+        run: |
+          wget https://services.gradle.org/distributions/gradle-8.12-bin.zip
+          unzip gradle-8.12-bin.zip -d $HOME
+          echo "GRADLE_HOME=$HOME/gradle-8.12" >> $GITHUB_ENV
+          echo "$GRADLE_HOME/bin" >> $GITHUB_PATH
       - name: Build artifacts
         run: ./gradlew build --stacktrace
       - name: Upload artifacts
